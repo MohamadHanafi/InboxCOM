@@ -12,7 +12,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className="py-3">
+      <main className="py-3 d-flex justify-content-center align-items-center">
         <Container>
           <HomeScreen />
         </Container>
