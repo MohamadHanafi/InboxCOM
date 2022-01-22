@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { Form, Spinner } from "react-bootstrap";
 import CustomModal from "./CustomModal";
 import Message from "./Message";
 
-import { Form, Spinner } from "react-bootstrap";
-import { useEffect } from "react";
+import { userCreate } from "../actions/userActions";
 
-//actions
-import { userLogin } from "../actions/userActions";
-
-const LoginModal = (props) => {
+const RegisterModal = (props) => {
   const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const { loading, error, success } = useSelector((state) => state.userLogin);
+
+  const { loading, error, success } = useSelector((state) => state.userCreate);
 
   useEffect(() => {
     setShow(props.show);
@@ -27,21 +26,33 @@ const LoginModal = (props) => {
     props.toggleLogin();
   };
 
-  const handleLogin = () => {
-    dispatch(userLogin(email, password));
+  const handleRegister = () => {
+    dispatch(userCreate({ name, email, password }));
   };
 
   return (
     <>
       <CustomModal
-        title="Log In"
-        action="Log Me In"
+        title="Register"
+        action="Register Me"
         show={show}
         toggleShow={toggleShow}
-        handleSubmit={handleLogin}
+        handleSubmit={handleRegister}
       >
-        <h6>Login: </h6>
+        <h6>Register: </h6>
         <Form>
+          <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              name="name"
+              value={name}
+              type="text"
+              placeholder="Enter your name"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -73,4 +84,4 @@ const LoginModal = (props) => {
   );
 };
 
-export default LoginModal;
+export default RegisterModal;
