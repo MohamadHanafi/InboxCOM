@@ -1,6 +1,8 @@
+import axios from "axios";
 import asyncHandler from "express-async-handler";
 
 import User from "../models/userModel.js";
+import Message from "../models/messageModel.js";
 import generateToken from "../utils/generateWebToken.js";
 
 // @desc    Register user
@@ -21,6 +23,16 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   });
 
   const token = generateToken(newUser._id);
+
+  //send welcome message
+  const welcomeMessage = `Welcome ${newUser.name}!\nYou have successfully registered.`;
+
+  await Message.create({
+    to: newUser._id,
+    from: "61ec7296bce64e07209bbe40",
+    subject: "Welcome to InboxCOM",
+    content: welcomeMessage,
+  });
 
   res.status(201).json({
     _id: newUser._id,

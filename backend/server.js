@@ -9,6 +9,7 @@ import { notFound, errorHandler } from "./middleware/errorsMiddleware.js";
 
 //routers
 import userRouter from "./routes/userRoutes.js";
+import messageRouter from "./routes/messageRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 app.use("/api/users", userRouter);
+app.use("/api/messages", messageRouter);
 
 const port = process.env.PORT || 5000;
 

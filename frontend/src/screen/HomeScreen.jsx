@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 //bootstrap
 import { Button, Image } from "react-bootstrap";
@@ -7,6 +8,7 @@ import { Button, Image } from "react-bootstrap";
 import laptopImage from "../assets/laptop.png";
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
+import { getMessages } from "../actions/messagesActions";
 
 const HomeScreen = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,16 +22,27 @@ const HomeScreen = () => {
   const toggleShowRegister = () => setShowRegister(!showRegister);
 
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { messages } = useSelector((state) => state.messages);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userInfo) {
       setIsShown(false);
       setShowLogin(false);
       setShowRegister(false);
+      if (!messages) {
+        dispatch(getMessages(userInfo._id));
+      }
     } else {
       setIsShown(true);
     }
-  }, [userInfo]);
+  }, [userInfo, messages, dispatch]);
+
+  const totalMessages = messages ? messages.messages.length : 0;
+  const totalUnreadMessages = messages
+    ? messages.messages.filter((message) => !message.isRead).length
+    : 0;
 
   return (
     <>
@@ -73,13 +86,14 @@ const HomeScreen = () => {
           Welcome {userInfo?.name.split(" ")[0]}!
         </h1>
         <h3 className="text-center w-100 py-3">
-          You have <span className="fw-bold">3</span> unread messages out of{" "}
-          <span className="fw-bold">10</span> total
+          You have <span className="fw-bold">{totalUnreadMessages}</span> unread
+          messages out of <span className="fw-bold">{totalMessages}</span> total
         </h3>
-
-        <Button className="my-3" variant="primary" size="lg">
-          View your messages
-        </Button>
+        <Link to="/inbox">
+          <Button className="my-3" variant="primary" size="lg">
+            View your messages
+          </Button>
+        </Link>
       </div>
     </>
   );
