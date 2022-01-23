@@ -11,6 +11,7 @@ import RegisterModal from "../components/RegisterModal";
 import { getMessages } from "../actions/messagesActions";
 
 const HomeScreen = () => {
+  // state for the TWo modals components
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -19,8 +20,7 @@ const HomeScreen = () => {
   const toggleLogin = () => setShowLogin(!showLogin);
   const toggleRegister = () => setShowRegister(!showRegister);
 
-  const toggleShowRegister = () => setShowRegister(!showRegister);
-
+  // user info and the messages he has received
   const { userInfo } = useSelector((state) => state.userLogin);
   const { messages } = useSelector((state) => state.messages);
 
@@ -39,6 +39,7 @@ const HomeScreen = () => {
     }
   }, [userInfo, messages, dispatch]);
 
+  // setting the messages counts
   const totalMessages = messages ? messages.messages.length : 0;
   const totalUnreadMessages = messages
     ? messages.messages.filter((message) => !message.isRead).length
@@ -68,7 +69,7 @@ const HomeScreen = () => {
             <Button
               variant="outline-secondary"
               onClick={() => {
-                toggleShowRegister();
+                toggleRegister();
               }}
             >
               Register
