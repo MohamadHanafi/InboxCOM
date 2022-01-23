@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const messageSchema = mongoose.Schema(
   {
     to: {
-      // email of the user that the message is sent to
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
