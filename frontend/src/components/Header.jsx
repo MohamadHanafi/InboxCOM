@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { USER_LOGOUT } from "../constants/userConstants";
+import { USER_CREATE_RESET, USER_LOGOUT } from "../constants/userConstants";
 
 //bootstrap
 import { Container, Navbar, Nav, NavDropdown, Badge } from "react-bootstrap";
@@ -46,6 +46,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_CREATE_RESET });
     dispatch({ type: MESSAGES_USER_RESET });
     localStorage.removeItem("userInfo");
     navigate("/");

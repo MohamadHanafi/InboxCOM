@@ -28,6 +28,9 @@ const RegisterModal = (props) => {
 
   const handleRegister = () => {
     dispatch(userCreate({ name, email, password }));
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (

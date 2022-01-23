@@ -10,6 +10,7 @@ export const createMessage = asyncHandler(async (req, res, next) => {
   req.body.from = req.user.id;
   const { to, subject, content } = req.body;
 
+  // validate request
   if (!to || !subject || !content) {
     res.status(400);
     return next(new Error("Please provide all the necessary entries"));
@@ -22,6 +23,7 @@ export const createMessage = asyncHandler(async (req, res, next) => {
     return next(new Error("The email you entered does not exist"));
   }
 
+  // create message
   const message = await Message.create({
     from: req.user.id,
     to: userTo._id,
@@ -29,6 +31,7 @@ export const createMessage = asyncHandler(async (req, res, next) => {
     content,
   });
 
+  // send response
   res.status(201).json({
     _id: message._id,
     from: message.from,
@@ -44,12 +47,13 @@ export const createMessage = asyncHandler(async (req, res, next) => {
 export const getMessages = asyncHandler(async (req, res, next) => {
   const { user_id } = req.params;
 
+  // check for user id
   if (!user_id) {
     res.status(400);
     return next(new Error("Error, no user"));
   }
 
-  // sort by date
+  // find messages and sort by date
   const messages = await Message.find({ to: user_id }).sort({
     createdAt: -1,
   });
@@ -65,6 +69,7 @@ export const getMessages = asyncHandler(async (req, res, next) => {
 export const getMessage = asyncHandler(async (req, res, next) => {
   const { message_id } = req.params;
 
+  // check for the message id
   if (!message_id) {
     res.status(400);
     return next(new Error("Error, no message"));

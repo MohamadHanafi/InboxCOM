@@ -4,13 +4,18 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 //reducers
 import { userCreateReducer, userLoginReducer } from "./reducers/userReducers";
-import { messageReducer, messagesReducer } from "./reducers/messagesReducers";
+import {
+  messageReducer,
+  messageSendReducer,
+  messagesReducer,
+} from "./reducers/messagesReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userCreate: userCreateReducer,
   messages: messagesReducer,
   message: messageReducer,
+  messageSend: messageSendReducer,
 });
 
 const middleware = [thunk];

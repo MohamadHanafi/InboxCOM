@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
-import colors from "colors";
-import morgan from "morgan";
+import colors from "colors"; // for console logs
+import morgan from "morgan"; // for logging requests
 
-import connectDb from "./config/db.js";
+import connectDb from "./config/db.js"; // connect to database
 
-import { notFound, errorHandler } from "./middleware/errorsMiddleware.js";
+import { notFound, errorHandler } from "./middleware/errorsMiddleware.js"; // error handling middleware;
 
 //routers
 import userRouter from "./routes/userRoutes.js";

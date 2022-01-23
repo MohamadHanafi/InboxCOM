@@ -26,6 +26,33 @@ const InboxScreen = () => {
   }, []);
 
   const messages = loadedMessages ? loadedMessages.messages : [];
+
+  // change the date format
+  const changeDateFormat = (date) => {
+    const newDate = new Date(date);
+    const today = new Date();
+
+    const timeDiff = Math.abs(today.getTime() - newDate.getTime());
+
+    const diffMinutes = Math.ceil(timeDiff / (1000 * 60));
+    const diffHours = Math.ceil(timeDiff / (1000 * 3600));
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (diffMinutes < 60) {
+      return `${diffMinutes} minutes ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} hours ago`;
+    } else if (diffDays < 7) {
+      return `${diffDays} days ago`;
+    } else {
+      return `${newDate.toLocaleDateString("en-Gb", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })}`;
+    }
+  };
+
   return (
     <>
       <h1 className="pb-3">Messages</h1>
@@ -40,7 +67,7 @@ const InboxScreen = () => {
                     <h4 className="mb-1">{message.subject}</h4>
                     <div className="d-flex justify-content-between align-items-center">
                       <small className="me-2 text-muted">
-                        {message.createdAt.substring(0, 10)}
+                        {changeDateFormat(message.createdAt)}
                       </small>
                       {!message.isRead ? (
                         <Badge className="h-100" bg="danger" pill>
